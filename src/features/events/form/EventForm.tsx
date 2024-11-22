@@ -1,18 +1,11 @@
 import { ChangeEvent, useState } from "react";
+import { Link } from "react-router-dom";
 import { Segment, Header, Form, Button } from "semantic-ui-react";
-import { AppEvent } from "../../../app/types/events";
-import { createId } from "@paralleldrive/cuid2";
 
-type Props = {
-  setFormOpen: (value: boolean) => void;
-  addEvent: (event: AppEvent) => void;
-  selectedEvent: AppEvent | null
-  updateEvent: (event: AppEvent) => void;
-}
 
-export default function EventForm({setFormOpen, addEvent, selectedEvent,updateEvent}: Props) {
+export default function EventForm() {
 
-  const initalValues = selectedEvent ?? {
+  const initalValues = {
     title: '',
     category: '',
     description: '',
@@ -24,10 +17,11 @@ export default function EventForm({setFormOpen, addEvent, selectedEvent,updateEv
   const [values, setValues] = useState(initalValues );
 
   function onSubmit(){
-    selectedEvent 
-      ? updateEvent({...selectedEvent, ...values})
-      : addEvent({...values, id: createId(), hostedBy: 'bob', attendees: [], hostPhotoURL: ''});
-    setFormOpen(false);
+    console.log('')
+    // selectedEvent 
+      // ? updateEvent({...selectedEvent, ...values})
+      // : addEvent({...values, id: createId(), hostedBy: 'bob', attendees: [], hostPhotoURL: ''});
+      // setFormOpen(false);
 
   }
 
@@ -38,7 +32,7 @@ export default function EventForm({setFormOpen, addEvent, selectedEvent,updateEv
   
   return (
     <Segment clearing>
-      <Header content={selectedEvent ? 'Update event' : ' Create Event'} />
+      <Header content={'Create Event'} />
       <Form onSubmit={onSubmit}>
         <Form.Field>
           <input 
@@ -86,7 +80,7 @@ export default function EventForm({setFormOpen, addEvent, selectedEvent,updateEv
         </Form.Field>
 
         <Button type='submit' floated='right' positive content='Submit' />
-        <Button onClick={() => setFormOpen(false)} type='button' floated='right' content='Cancel' />
+        <Button as={Link} to='/events' type='button' floated='right' content='Cancel' />
       </Form>
     </Segment>
   )
